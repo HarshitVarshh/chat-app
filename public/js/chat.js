@@ -4,11 +4,13 @@ const $messageForm = document.querySelector('#message-form')
 const $messageFormInput = $messageForm.querySelector('input')
 const $messageFormButton = $messageForm.querySelector('button')
 const $locationButton = document.querySelector('#send-location')
+const $wishButton = document.querySelector('#send-wish')
 const $messages = document.querySelector('#messages')
 //Templates
 const $messageTemplate= document.querySelector('#message-template').innerHTML
 const $locationTemplate = document.querySelector('#location-template').innerHTML
 const $sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
+const $wishTemplate = document.querySelector('#wish-template').innerHTML
 //Options
  const {username,room} = Qs.parse(location.search,{ignoreQueryPrefix:true})
 
@@ -39,6 +41,17 @@ const $sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
 
 
  }
+ socket.on('sendWish',(loc)=>{
+    const html = Mustache.render($wishTemplate,{
+        username:loc.username,
+        location:loc.url,
+        createdAt: moment(loc.createdAt).format('h:mm a')
+    })
+    $messages.insertAdjacentHTML('beforeend',html)
+    autoScroll()
+
+})
+
 socket.on('locationMessage',(loc)=>{
     const html = Mustache.render($locationTemplate,{
         username:loc.username,
@@ -49,6 +62,7 @@ socket.on('locationMessage',(loc)=>{
     autoScroll()
 
 })
+
  socket.on('message',(msg)=>{
      console.log(msg)
      const html = Mustache.render($messageTemplate,{
@@ -101,6 +115,14 @@ socket.on('locationMessage',(loc)=>{
         })
     })
 })
+$wishButton.addEventListener('click', () => {
+    $wishButton.setAttribute('disabled', 'disabled')
+        socket.emit('sendWish', { }, () => {
+            $wishButton.removeAttribute('disabled')
+            console.log('Wish shared!')  
+        })
+})
+
 
  socket.emit('join',{username,room},(error)=>{
      if(error){

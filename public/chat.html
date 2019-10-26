@@ -18,11 +18,20 @@
                         <button>Send</button>
                      </form>
                     <button id="send-location"> Send Location</button>
+                    <button id="send-wish">Diwali Wish</button>
                 </div>
                 
             </div>
         </div>
-
+        <script id="wish-template" type="text/html">
+            <div class="message">
+                <p>
+                    <span class="message__name">{{username}}</span>
+                    <span class="message__meta">{{createdAt}} </span>
+                </p>
+                <p><a href="{{location}}" target="_blank">Happy Diwali</a></p>
+            </div>
+        </script>
         <script id="message-template" type="text/html">
             <div class="message">
                 <p>

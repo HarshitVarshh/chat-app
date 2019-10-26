@@ -65,6 +65,16 @@ io.on('connection',(socket)=>{
          callback()
          
      })
+     socket.on('sendWish',(pos,callback)=>{
+          
+        const user = getUser(socket.id)
+        console.log(user)
+        if(user){
+        io.to(user.room).emit('sendWish',generateLocation(user.username,"https://www.google.com/imgres?imgurl=https%3A%2F%2Fanalyticstraining.com%2Fwp-content%2Fuploads%2F2015%2F11%2F25597-NVYNFH.jpg&imgrefurl=https%3A%2F%2Fanalyticstraining.com%2Fteam-jigsaw-wishes-you-a-happy-diwali%2F&docid=jgKyeFhnRfMg7M&tbnid=aG2-3hnxJRHrUM%3A&vet=10ahUKEwjEp8rfzbrlAhUFWCsKHbJkDNIQMwh9KAQwBA..i&w=1667&h=1667&bih=529&biw=1280&q=happy%20diwali&ved=0ahUKEwjEp8rfzbrlAhUFWCsKHbJkDNIQMwh9KAQwBA&iact=mrc&uact=8"))
+        }
+        callback()
+        
+    })
 
     })
 
