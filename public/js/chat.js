@@ -84,23 +84,23 @@ socket.on('locationMessage',(loc)=>{
      })
  })
 
- $locationButton.addEventListener('click',()=>{
-     if(!navigator.geolocation){
-         return alert('Geolocation is not supported by your browser')
-     }
-     $locationButton.setAttribute('disabled','disabled')
-     navigator.geolocation.getCurrentPosition((position)=>{
-         socket.emit('sendLocation',{
-             lat:position.coords.latitude,
-             long: position.coords.longitude
-         },()=>{
+ $locationButton.addEventListener('click', () => {
+    if (!navigator.geolocation) {
+        return alert('Geolocation is not supported by your browser.')
+    }
+
+    $locationButton.setAttribute('disabled', 'disabled')
+
+    navigator.geolocation.getCurrentPosition((position) => {
+        socket.emit('sendLocation', {
+            lat: position.coords.latitude,
+            long: position.coords.longitude
+        }, () => {
             $locationButton.removeAttribute('disabled')
-             console.log('Location Shared')
-         })
-         
-     
-     })
- })
+            console.log('Location shared!')  
+        })
+    })
+})
 
  socket.emit('join',{username,room},(error)=>{
      if(error){

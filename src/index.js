@@ -56,11 +56,14 @@ io.on('connection',(socket)=>{
          }
      })
      socket.on('sendLocation',(pos,callback)=>{
+          
          const user = getUser(socket.id)
+         console.log(user)
          if(user){
          io.to(user.room).emit('locationMessage',generateLocation(user.username,`https://google.com/maps?q=${pos.lat},${pos.long}`))
          }
          callback()
+         
      })
 
     })
